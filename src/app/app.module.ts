@@ -7,6 +7,7 @@ import { NavModule } from './core/components/nav/nav.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { HttpConfigInterceptor } from './core/services/http/interceptor.service';
+import { CrudServiceModule } from './core/services/genericCRUD/crud-service.module';
 
 @NgModule({
     declarations: [AppComponent],
@@ -16,6 +17,7 @@ import { HttpConfigInterceptor } from './core/services/http/interceptor.service'
         AppRoutingModule,
         NavModule,
         HttpClientModule,
+        CrudServiceModule
     ],
     providers: [
         {
