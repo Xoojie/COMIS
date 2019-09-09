@@ -72,7 +72,7 @@ export class DataDelete {
             this.DS.cache[model.tableName] = this.DS.cache[model.tableName].filter(el => el.key !== objToDelete.key);
         }
 
-        const url = `${this.DS.endpoint}${model.tableName}/${objToDelete.key || objToDelete.id}`;
+        const url = `${this.DS.endpoint}${model.tableName}/delete/${objToDelete.key || objToDelete.id}`;
         try {
             const res = await fetch(url, {
                 method: 'DELETE',

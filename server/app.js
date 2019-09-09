@@ -24,7 +24,7 @@ const testRoute = require('./routes/test.route')
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
-  extended: false
+  extended: true
 }));
 app.use(cors());
 

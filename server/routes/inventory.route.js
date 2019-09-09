@@ -15,4 +15,15 @@ inventoryRoute.route('/').get((req, res) => {
     })
   })
 
+inventoryRoute.route('/add').post((req, res, next) => {
+    Inventory.create(req.body, (error, data) => {
+      if (error) {
+        console.log("error in inv add");
+        return next(error)
+      } else {
+        res.json(data)
+      }
+    })
+});
+
 module.exports = inventoryRoute;

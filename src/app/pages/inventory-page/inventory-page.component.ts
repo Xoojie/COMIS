@@ -8,11 +8,17 @@ import { MatTableDataSource } from '@angular/material';
     templateUrl: './inventory-page.component.html',
     styleUrls: ['./inventory-page.component.scss'],
 })
+
+
 export class InventoryPageComponent implements OnInit {
    
     displayedColumns: string[] = [ 'itemID' , 'subType' ,'name' , 'description' , 'condition' ];
 
     inventory = new MatTableDataSource<any>();
+    
+    newInventory = { itemID: 'bob', type: 'Instrument', subType : 'Flute' , itemNum: '2' , name : 'San Miguel' , condition : 'OK' , 
+    description : 'Wood', addedBy : '1'  , editedBy : '1' , dateAdded : new Date() , dateEdited : new Date() , isDeleted : '1'  };
+
 
     constructor(
         public DS: DataService
@@ -29,6 +35,16 @@ export class InventoryPageComponent implements OnInit {
         const [inventoryRes] = await Promise.all([inventoryPromise]);
     
         this.inventory = inventoryRes;
+    }
+
+    async createPromise() {
+
+        this.DS.createPromise(Inventory , this.newInventory)
+    }
+
+    onClickAddInv () {
+        this.createPromise();
+        this.readWithPromise();
     }
 
     public doFilter = (value: string) => {

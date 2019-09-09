@@ -57,7 +57,7 @@ export class DataUpdate {
     }
 
     async updatePromise<T>(model: T | any, objToUpdate: T | any): Promise<T | any> {
-        const url = `${this.DS.endpoint}${model.tableName}/${objToUpdate.key}`;
+        const url = `${this.DS.endpoint}${model.tableName}/update/${objToUpdate.key}`;
         try {
             const res = await fetch(url, {
                 method: 'PATCH',

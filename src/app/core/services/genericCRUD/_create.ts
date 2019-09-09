@@ -46,7 +46,7 @@ export class DataCreate {
     createObs<T>(model: T | any, objToCreate?: T | any): Observable<T | T[]> {
         const newModelObj = new model(objToCreate);
 
-        const url = `${this.DS.endpoint}${model.tableName}`;
+        const url = `${this.DS.endpoint}${model.tableName}/add`;
         return this.http.post(url, newModelObj, this.DS.httpOptions)
             .pipe(
                 catchError(handleHttpError),
@@ -60,7 +60,7 @@ export class DataCreate {
     async createPromise<T>(model: T | any, objToCreate: T | any): Promise<T | any> {
         const newModelObj = new model(objToCreate);
 
-        const url = `${this.DS.endpoint}${model.tableName}`;
+        const url = `${this.DS.endpoint}${model.tableName}/add`;
         try {
             const res = await fetch(url, {
                 method: 'POST',
