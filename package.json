@@ -15,11 +15,7 @@
     "genpage": "node ./scripts/generatePage",
     "postgenpage": "ng lint --fix"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "run-s test:single-run format:fix format:check lint:fix lint:check"
-    }
-  },
+  
   "private": true,
   "dependencies": {
     "@angular/animations": "^8.2.3",
