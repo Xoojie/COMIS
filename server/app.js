@@ -5,7 +5,6 @@ let express = require('express'),
   bodyParser = require('body-parser'),
   dataBaseConfig = require('./database/db');
 
-// Connecting mongoDB
 mongoose.Promise = global.Promise;
 mongoose.connect(dataBaseConfig.db, {
   useNewUrlParser: true
@@ -17,7 +16,6 @@ mongoose.connect(dataBaseConfig.db, {
   }
 )
 
-// Set up express js port
 const inventoryRoute = require('./routes/inventory.route')
 const testRoute = require('./routes/test.route')
 
@@ -28,27 +26,21 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cors());
 
-// Setting up static directory
 app.use(express.static(path.join(__dirname, 'dist/comis.version.3')));
 
-
-// RESTful API root
 app.use('/inventory', inventoryRoute)
 app.use('/test' , testRoute)
 
-// PORT
 const port = process.env.PORT || 8000;
 
 app.listen(port, () => {
   console.log('Connected to port ' + port)
 })
 
-// Find 404 and hand over to error handler
 app.use((req, res, next) => {
   next(createError(404));
 });
 
-// Index Route
 app.get('/', (req, res) => {
   res.send('invaild endpoint');
 });
@@ -57,9 +49,9 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/comis.version.3/index.html'));
 });
 
-// error handler
 app.use(function (err, req, res, next) {
   console.error(err.message);
+  console.log(err);
   if (!err.statusCode) err.statusCode = 500;
   res.status(err.statusCode).send(err.message);
 });

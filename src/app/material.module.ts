@@ -8,6 +8,7 @@ import {PortalModule} from '@angular/cdk/portal';
 import {ScrollDispatchModule} from '@angular/cdk/scrolling';
 import {CdkStepperModule} from '@angular/cdk/stepper';
 import {CdkTableModule} from '@angular/cdk/table';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -38,6 +39,7 @@ import {
     MatTooltipModule,
     MatTableModule
   } from '@angular/material';
+
 
   @NgModule({
     exports: [
@@ -80,7 +82,9 @@ import {
       MatToolbarModule,
       MatTooltipModule,
       MatNativeDateModule,
-      MatTableModule
+      MatTableModule,
+      FormsModule,
+      ReactiveFormsModule
     ],
   
    

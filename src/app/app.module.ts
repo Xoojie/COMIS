@@ -9,6 +9,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { HttpConfigInterceptor } from './core/services/http/interceptor.service';
 import { CrudServiceModule } from './core/services/genericCRUD/crud-service.module';
 
+
 @NgModule({
     declarations: [AppComponent],
     imports: [
@@ -17,7 +18,8 @@ import { CrudServiceModule } from './core/services/genericCRUD/crud-service.modu
         AppRoutingModule,
         NavModule,
         HttpClientModule,
-        CrudServiceModule
+        CrudServiceModule,
+       
     ],
     providers: [
         {
@@ -26,6 +28,7 @@ import { CrudServiceModule } from './core/services/genericCRUD/crud-service.modu
             multi: true,
         },
     ],
+
     bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -14,8 +14,18 @@ inventoryRoute.route('/').get((req, res) => {
       }
     })
   })
-
-inventoryRoute.route('/add').post((req, res, next) => {
+// get one
+inventoryRoute.route('/get/id=:id').get((req, res) => {
+  Inventory.findById(req.params.id, (error, data) => {
+    if (error) {
+      return next(error)
+    } else {
+      res.json(data)
+    }
+  })
+})
+// add
+inventoryRoute.route('/post').post((req, res, next) => {
     Inventory.create(req.body, (error, data) => {
       if (error) {
         console.log("error in inv add");
@@ -25,5 +35,19 @@ inventoryRoute.route('/add').post((req, res, next) => {
       }
     })
 });
+//update
+inventoryRoute.route('/update/:id').put((req, res, next) => {
+  Inventory.findByIdAndUpdate(req.params.id, {
+    $set: req.body
+  }, (error, data) => {
+    if (error) {
+      return next(error);
+    } else {
+      res.json(data)
+    }
+  })
+})
+
+
 
 module.exports = inventoryRoute;

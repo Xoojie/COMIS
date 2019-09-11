@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { Inventory } from '../../core/models/Inventory';
+import { Component, OnInit, Inject} from '@angular/core';
 import { DataService } from '../../core/services/genericCRUD/data.service'
 
+
+export interface DialogData {
+  animal: string;
+  name: string;
+}
 
 @Component({
     selector: 'app-dashboard-page',
@@ -10,26 +14,8 @@ import { DataService } from '../../core/services/genericCRUD/data.service'
 })
 export class DashboardPageComponent implements OnInit {
 
-    inventory: Inventory[] = [];
-
-    constructor(
-        public DS: DataService
-    ) { }
-
     ngOnInit() {
-        this.readWithPromise();
-    }
-
-    async readWithPromise() {
-        const inventoryPromise = this.DS.readPromise(Inventory);
-    
-        const [inventoryRes] = await Promise.all([inventoryPromise]);
-    
-        this.inventory = inventoryRes;
-    }  
-
-    
-
-   
+       
+    } 
     
 }

@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>{{data.subType}} ({{data.itemID}})  </h2>
+<div mat-dialog-content [formGroup] = "editInventoryForm" >
+            <mat-form-field >
+                <mat-label> Brand </mat-label>
+                <input matInput formControlName = "name" value = {{data.name}}>
+            </mat-form-field>
+            <br>
+            <mat-form-field >
+                <mat-label> Description </mat-label>
+                <input matInput formControlName = "description" value = {{data.description}}>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <mat-label>Condition</mat-label>
+                <input matInput formControlName = "condition" value = {{data.condition}}>
+            </mat-form-field>  
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click) = "submitEditInventoryForm()" >Edit</button>
+    <button mat-button (click) = "submitDeleteInventoryForm()" >Delete</button> 
+    <button mat-button (click)="onNoClick()">Back</button>
+</div>

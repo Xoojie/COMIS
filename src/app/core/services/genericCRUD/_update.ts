@@ -30,7 +30,7 @@ export class DataUpdate {
             this.cacheAndNotifyUpdated(model, objToUpdate);
         }
 
-        const url = `${this.DS.endpoint}${model.tableName}/${objToUpdate.key}`;
+        const url = `${this.DS.endpoint}${model.tableName}/update/${objToUpdate.id}`;
         this.http.patch(url, objToUpdate, this.DS.httpOptions).subscribe(
             res => {
                 if (!this.DS.isOptimistic) {
@@ -46,7 +46,7 @@ export class DataUpdate {
     }
 
     updateObs<T>(model: T | any, objToUpdate: T | any): Observable<T[]> {
-        const url = `${this.DS.endpoint}${model.tableName}/${objToUpdate.key}`;
+        const url = `${this.DS.endpoint}${model.tableName}/update/${objToUpdate.id}`;
         return this.http.patch<T[]>(url, objToUpdate, this.DS.httpOptions)
             .pipe(
                 catchError(handleHttpError),
@@ -57,7 +57,7 @@ export class DataUpdate {
     }
 
     async updatePromise<T>(model: T | any, objToUpdate: T | any): Promise<T | any> {
-        const url = `${this.DS.endpoint}${model.tableName}/update/${objToUpdate.key}`;
+        const url = `${this.DS.endpoint}${model.tableName}/update/${objToUpdate.id}`;
         try {
             const res = await fetch(url, {
                 method: 'PATCH',

@@ -12,8 +12,8 @@ let Inventory = new Schema ({
     condition: { type: String },
     dateAdded: { type: Date },
     dateEdited: { type: Date },
-    addedBy: { type: Number },
-    editedBy: { type: Number },
+    addedBy: { type: String },
+    editedBy: { type: String },
     isDeleted: { type: Number },
 }, 
 {

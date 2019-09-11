@@ -5,6 +5,7 @@ import { catchError, tap } from 'rxjs/operators';
 
 import { DataService } from './data.service';
 import { handleHttpError } from './utilities';
+import { JsonPipe } from '@angular/common';
 
 @Injectable()
 export class DataRead {
@@ -69,18 +70,26 @@ export class DataRead {
         this.DS.loadingMap[model.tableName] = true;
 
         const httpOpts = Object.assign({}, this.DS.httpOptions);
+        let url : any ;
 
         if (query) {
             httpOpts.params = this.createSearchParams(query);
+            url = `${this.DS.endpoint}${model.tableName}/get/${httpOpts.params}`;
+        } else {
+            url = `${this.DS.endpoint}${model.tableName}`;
         }
 
-        const url = `${this.DS.endpoint}${model.tableName}`; // TODO: Spread query params for the fetch
+         // TODO: Spread query params for the fetch
         // TODO: Attach Headers to Fetch
         try {
             const res = await fetch(url);
             const resJson = await res.json();
+            if (Array.isArray(resJson)){
             this.cacheAndNotifyRead(model, resJson);
             return resJson;
+            } else {
+            return resJson;
+            }
         }
         catch (err) {
             handleHttpError(err);
@@ -110,8 +119,19 @@ export class DataRead {
     }
 
     private cacheAndNotifyRead<T>(model: T | any, res: T[]) {
+        
         this.DS.cache[model.tableName] = [];
         res.forEach((el: T) => {
+            this.DS.cache[model.tableName].push(new model(el));
+        });
+        // Update Frontend
+        this.DS.subjectMap[model.tableName].many.next(this.DS.cache[model.tableName]);
+    }
+
+    private singleCacheAndNotifyRead<T>(model: T | any, res: String[]) {
+        
+        this.DS.cache[model.tableName] = [];
+        res.forEach((el: String) => {
             this.DS.cache[model.tableName].push(new model(el));
         });
         // Update Frontend

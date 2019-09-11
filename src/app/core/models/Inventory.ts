@@ -12,8 +12,8 @@ export interface IInventory extends IDataBaseObj {
     condition?: string;
     dateAdded?: Date;
     dateEdited?: Date;
-    adddedBy?: number;
-    editedBy?: number;
+    adddedBy?: string;
+    editedBy?: string;
     isDeleted?: number;
 }
 
@@ -32,8 +32,8 @@ export class Inventory implements IInventory {
     condition?: string;
     dateAdded?: Date;
     dateEdited?: Date;
-    adddedBy?: number;
-    editedBy?: number;
+    adddedBy?: string;
+    editedBy?: string;
     isDeleted?: number;
 
     constructor(props: IInventory) {

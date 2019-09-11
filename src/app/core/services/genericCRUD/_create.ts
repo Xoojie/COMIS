@@ -60,7 +60,7 @@ export class DataCreate {
     async createPromise<T>(model: T | any, objToCreate: T | any): Promise<T | any> {
         const newModelObj = new model(objToCreate);
 
-        const url = `${this.DS.endpoint}${model.tableName}/add`;
+        const url = `${this.DS.endpoint}${model.tableName}/post`;
         try {
             const res = await fetch(url, {
                 method: 'POST',
