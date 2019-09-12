@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { DataService } from '../../core/services/genericCRUD/data.service'
+import { MatTableDataSource } from '@angular/material';
+import { MatDialog, MatDialogRef ,MatDialogConfig ,MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormBuilder, Validators } from "@angular/forms";
 
 @Component({
     selector: 'app-borrower-info-page',
@@ -10,3 +14,4 @@ export class BorrowerInfoPageComponent implements OnInit {
 
     ngOnInit() {}
 }
+

@@ -96,6 +96,22 @@ export class DataRead {
         }
     }
 
+    async readLatestTransaction<T>(model: T | any, query?: HttpParams | string | any): Promise<T | any> {
+        this.DS.loadingMap[model.tableName] = true;
+
+        let url : any ;
+        url = `${this.DS.endpoint}${model.tableName}/getLatest/${query}`;
+       
+        try {
+            const res = await fetch(url);
+            const resJson = await res.json();
+            return resJson;   
+        }
+        catch (err) {
+            handleHttpError(err);
+        }
+    }
+
     private createSearchParams(query: HttpParams | string | any): HttpParams {
         let newParams = new HttpParams;
 
@@ -122,16 +138,6 @@ export class DataRead {
         
         this.DS.cache[model.tableName] = [];
         res.forEach((el: T) => {
-            this.DS.cache[model.tableName].push(new model(el));
-        });
-        // Update Frontend
-        this.DS.subjectMap[model.tableName].many.next(this.DS.cache[model.tableName]);
-    }
-
-    private singleCacheAndNotifyRead<T>(model: T | any, res: String[]) {
-        
-        this.DS.cache[model.tableName] = [];
-        res.forEach((el: String) => {
             this.DS.cache[model.tableName].push(new model(el));
         });
         // Update Frontend
