@@ -4,6 +4,10 @@ import { DataService } from '../../core/services/genericCRUD/data.service'
 import { MatTableDataSource } from '@angular/material';
 import { MatDialog, MatDialogRef ,MatDialogConfig ,MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, Validators } from '@angular/forms';
+<<<<<<< HEAD
+=======
+//import { BorrowReturnPageComponent } from '../borrow-return-page/borrow-return-page.component'
+>>>>>>> de2bd74ffdb407e20c52cbff3adc544f0aca945c
 
 @Component({
     selector: 'app-inventory-page',
@@ -13,8 +17,12 @@ import { FormBuilder, Validators } from '@angular/forms';
 
 export class InventoryPageComponent implements OnInit {
     
-    inventory = new MatTableDataSource<IInventory>();
+    //inventory = new MatTableDataSource<IInventory>();
+    inventory : Inventory[] = [];
+    instrument : Inventory[] = [];
+    accessory : Inventory[] = [];
     displayedColumns: string[] = [ 'itemID' , 'subType' ,'name' , 'description' , 'condition' ];
+    
 
     ngOnInit() {
         this.readInventory();
@@ -23,6 +31,7 @@ export class InventoryPageComponent implements OnInit {
     constructor(
         public DS: DataService,
         public dialog: MatDialog,
+       //public BRC : BorrowReturnPageComponent,
     ) { }
 
     async readInventory() {
@@ -31,10 +40,18 @@ export class InventoryPageComponent implements OnInit {
         const [inventoryRes] = await Promise.all([inventoryPromise]);
     
         this.inventory = inventoryRes;
+
+        this.instrument = this.inventory.filter(function(item){
+            return item.type == 'Instrument' && item.isDeleted.toString() == '0'
+        });
+        this.accessory = this.inventory.filter(function(item){
+            return item.type == 'Accessory' && item.isDeleted.toString() == '0'
+        });
+        //this.BRC.readInventory();
     }
 
-    applyFilter(filterValue: string) {
-        this.inventory.filter = filterValue.trim().toLowerCase();
+    public applyFilter = (value: string) => {
+       
       }
 
     openAddInstrumentDialog(): void {
@@ -98,7 +115,7 @@ export class InventoryPageComponent implements OnInit {
 
 @Component({
     selector : 'addInventory-dialog',
-    templateUrl : 'addInventory-dialog.html',
+    templateUrl : './dialog/addInventory-dialog.html',
 })
 
 export class addInventoryDialog {
@@ -140,7 +157,7 @@ export class addInventoryDialog {
 
 @Component({
     selector : 'editInventory-dialog',
-    templateUrl : 'editInventory-dialog.html'
+    templateUrl : './dialog/editInventory-dialog.html'
 })
 
 export class editInventoryDialog implements OnInit {
@@ -182,6 +199,16 @@ export class editInventoryDialog implements OnInit {
     submitEditInventoryForm(){
         this.DS.updatePromise(Inventory, this.editInventoryForm.value);
         this.dialogRef.close();
+    }
+
+    submitDeleteInventoryForm(){
+        var deleteQuery = {
+            id : this.data.id,
+            isDeleted : '1'
+        }
+
+        this.DS.updatePromise(Inventory, deleteQuery);
+        this.dialogRef.close(); 
     }
 
     onNoClick(): void {

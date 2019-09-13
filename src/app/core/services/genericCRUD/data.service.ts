@@ -91,6 +91,10 @@ export class DataService {
     return this.DR.readPromise(model, query);
   }
 
+  readLatestTransaction<T>(model: T | any, query?: HttpParams | string | any): Promise<T | any> {
+    return this.DR.readLatestTransaction(model, query);
+  }
+
   // UPDATE
   update<T>(model: T | any, objToUpdate: T | any) {
     this.DU.update(model, objToUpdate);

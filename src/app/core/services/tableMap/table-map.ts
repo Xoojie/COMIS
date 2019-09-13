@@ -1,5 +1,6 @@
 export class TableMap {
     static Inventory  = 'inventory';
-    static Transactions = 'Transactions';
-    static Students = 'Students';
+    static Transaction = 'transaction';
+    static Borrower = 'borrower';
+    static ItemTypes = 'itemTypes';
 }
