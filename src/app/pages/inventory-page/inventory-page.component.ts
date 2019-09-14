@@ -18,7 +18,7 @@ export class InventoryPageComponent implements OnInit {
     inventory : Inventory[] = [];
     instrument : Inventory[] = [];
     accessory : Inventory[] = [];
-    displayedColumns: string[] = [ 'itemID' , 'subType' ,'name' , 'description' , 'condition' ];
+    displayedColumns: string[] = [ 'itemID' ,'type', 'subType' ,'name' , 'description' ,'location', 'condition' ];
     
 
     ngOnInit() {
@@ -39,10 +39,10 @@ export class InventoryPageComponent implements OnInit {
         this.inventory = inventoryRes;
 
         this.instrument = this.inventory.filter(function(item){
-            return item.type == 'Instrument' && item.isDeleted.toString() == '0'
+            return item.class == 'Instrument' && item.isArchived.toString() == '0'
         });
         this.accessory = this.inventory.filter(function(item){
-            return item.type == 'Accessory' && item.isDeleted.toString() == '0'
+            return item.class == 'Accessory' && item.isArchived.toString() == '0'
         });
         //this.BRC.readInventory();
     }
@@ -55,7 +55,7 @@ export class InventoryPageComponent implements OnInit {
         
         const dialogConfig = new MatDialogConfig();
         dialogConfig.data = {
-            type : 'Instrument'
+            class : 'Instrument'
         };
 
         this.dialog.open(addInventoryDialog, dialogConfig).afterClosed().subscribe(result => {
@@ -67,7 +67,7 @@ export class InventoryPageComponent implements OnInit {
         
         const dialogConfig = new MatDialogConfig();
         dialogConfig.data = {
-            type : 'Accessory'
+            class : 'Accessory'
         };
 
         this.dialog.open(addInventoryDialog, dialogConfig).afterClosed().subscribe(result => {
@@ -78,13 +78,15 @@ export class InventoryPageComponent implements OnInit {
     editInstrument(row) {
         const dialogConfig = new MatDialogConfig();
         dialogConfig.data = {
-            type : 'Instrument',
+            class : 'Instrument',
+            type : row.type,
             id : row._id, 
             itemID : '',
             subType : '',
             name: row.name,
             description : row.description,
-            condition : row.condition
+            condition : row.condition,
+            location : row.location
         };
 
         this.dialog.open(editInventoryDialog, dialogConfig).afterClosed().subscribe(result => {
@@ -95,13 +97,15 @@ export class InventoryPageComponent implements OnInit {
     editAccessory(row) {
         const dialogConfig = new MatDialogConfig();
         dialogConfig.data = {
-            type : 'Accessory',
+            class : 'Accessory',
+            type : row.type,
             id : row._id, 
             itemID : '',
             subType : '',
             name: row.name,
             description : row.description,
-            condition : row.condition
+            condition : row.condition,
+            location : row.location
         };
 
         this.dialog.open(editInventoryDialog, dialogConfig).afterClosed().subscribe(result => {
@@ -127,17 +131,20 @@ export class addInventoryDialog {
         ) {
             this.addInventoryForm = this.fb.group({
                 itemID :[''],
-                type : [data.type],
+                class: [data.class],
+                type : [''],
                 subType : [''],
                 itemNum : [''],
                 name : [''],
                 description: [''],
+                location: [''],
                 condition : [''],
+                status: ['OK'],
                 dateAdded : [new Date()],
                 dateEdited : [''],
                 addedBy : ['bandoy'],
-                editedBy : ['bandoy'],
-                isDeleted : ['0'],
+                editedBy : [''],
+                isArchived : ['0'],
             })
         }
 
@@ -177,6 +184,7 @@ export class editInventoryDialog implements OnInit {
                 id: [data.id],
                 name : [data.name],
                 description: [data.description],
+                location: [data.location],
                 condition : [data.condition],
                 dateEdited : [new Date()],
                 editedBy : ['bandoy'],
@@ -185,8 +193,9 @@ export class editInventoryDialog implements OnInit {
 
     async readSingleInventory() {
         
-        const getIDquery = "id="+this.data.id 
-        const inventoryPromise = this.DS.readPromise(Inventory , getIDquery);
+        const getIDquery = "id="+this.data.id ;
+        const type = "get";
+        const inventoryPromise = this.DS.readPromise(Inventory ,type, getIDquery);
         const [inventoryRes] = await Promise.all([inventoryPromise]);
         this.singleInventorySource = inventoryRes;
         this.data.itemID = this.singleInventorySource.itemID

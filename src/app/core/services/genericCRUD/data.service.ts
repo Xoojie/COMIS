@@ -87,8 +87,8 @@ export class DataService {
     return this.DR.readObs(model, query);
   }
 
-  readPromise<T>(model: T | any, query?: HttpParams | string | any): Promise<T | any> {
-    return this.DR.readPromise(model, query);
+  readPromise<T>(model: T | any,type?: string | any, query?: HttpParams | string | any): Promise<T | any> {
+    return this.DR.readPromise(model,type,query);
   }
 
   readLatestTransaction<T>(model: T | any, query?: HttpParams | string | any): Promise<T | any> {

@@ -5,11 +5,11 @@ export interface ITransaction extends IDataBaseObj {
 
     borrowerID? : number;
     itemID? : string;
+    purpose?: string;
     dataBorrowed? : Date;
     dateReturned? : Date;
     lentBy? : string;
     receivedBy? : string;
-    remarks?: string;
     hasIncident?: number
 
 }
@@ -22,11 +22,11 @@ export class Transaction implements ITransaction {
 
     borrowerID? : number;
     itemID? : string;
+    purpose?: string;
     dataBorrowed? : Date;
     dateReturned? : Date;
     lentBy? : string;
     receivedBy? : string;
-    remarks?: string;
     hasIncident?: number
 
     constructor(props: ITransaction) {

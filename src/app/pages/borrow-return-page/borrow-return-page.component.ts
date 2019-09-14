@@ -17,7 +17,7 @@ export class BorrowReturnPageComponent implements OnInit {
     inventory : Inventory[] = [];
     instrument : Inventory[] = [];
     accessory : Inventory[] = [];
-    displayedColumns: string[] = [ 'itemID' , 'subType' ,'name' , 'description' , 'condition' ];
+    displayedColumns: string[] = [ 'itemID' ,'type', 'subType' ,'name' , 'description' , 'condition' , 'status' ];
 
     constructor(
         public DS: DataService,
@@ -36,10 +36,10 @@ export class BorrowReturnPageComponent implements OnInit {
         this.inventory = inventoryRes;
 
         this.instrument = this.inventory.filter(function(item){
-            return item.type == 'Instrument' && item.isDeleted.toString() == '0'
+            return item.class == 'Instrument' && item.isArchived.toString() == '0'
         });
         this.accessory = this.inventory.filter(function(item){
-            return item.type == 'Accessory' && item.isDeleted.toString() == '0'
+            return item.class == 'Accessory' && item.isArchived.toString() == '0'
         });
     }
 
@@ -49,15 +49,17 @@ export class BorrowReturnPageComponent implements OnInit {
         const dialogConfig = new MatDialogConfig();
         dialogConfig.data = {
             id : row._id,
+            type : row.type,
             subType : row.subType,
             itemID : row.itemID,
-            borrowerID : ''
+            borrowerID : '',
+            purpose: ''
         };
-        if(row.condition == 'OK'){
+        if(row.status == 'OK'){
             this.dialog.open(borrowDialog, dialogConfig).afterClosed().subscribe(result => {
                 this.readInventory()
             });
-        }else if (row.condition == 'BORROWED'){
+        }else if (row.status == 'BORROWED'){
             this.dialog.open(returnDialog, dialogConfig).afterClosed().subscribe(result => {
                 this.readInventory()
             });
@@ -85,11 +87,11 @@ export class borrowDialog {
             this.borrowForm = this.fb.group({
                 borrowerID: [''],
                 itemID : [data.itemID],
+                purpose : [''],
                 dateBorrowed : [new Date],
                 dateReturned : [''],
                 lentBy: ['bandoy'],
                 receivedBy: [''],
-                remarks: [''],
                 hasIncident: ['']
             })
         }
@@ -97,7 +99,7 @@ export class borrowDialog {
     submitBorrowForm(){
         var updateItem = {
             id: this.data.id,
-            condition: 'BORROWED'
+            status: 'BORROWED'
         }
         this.DS.updatePromise(Inventory,updateItem);
         this.DS.createPromise(Transaction, this.borrowForm.value);
@@ -134,21 +136,23 @@ export class returnDialog implements OnInit {
                 id : [''],
                 dateReturned : [new Date],
                 receivedBy: ['bandoy'],
-                remarks: [''],
                 hasIncident: ['0']
             })
         }
     
     async readLatestTransaction(){
-        const readPromise = this.DS.readLatestTransaction(Transaction, this.data.itemID);
+        const type = "getLatest"
+        const getIDquery = "id="+this.data.itemID ;
+        const readPromise = this.DS.readPromise(Transaction,type,getIDquery);
         const [readRes] = await Promise.all([readPromise]);
         this.singleTransactionSource = readRes;
+
         this.data.borrowerID = this.singleTransactionSource.borrowerID;
+        this.data.purpose = this.singleTransactionSource.purpose;
         this.returnForm = this.fb.group({
             id : [this.singleTransactionSource._id],
             dateReturned : [new Date],
             receivedBy: ['bandoy'],
-            remarks: [''],
             hasIncident: ['0']
         })
     }    
@@ -156,7 +160,7 @@ export class returnDialog implements OnInit {
     submitReturnForm(){
         var updateItem = {
             id : this.data.id,
-            condition : 'OK'
+            status : 'OK'
         }
         this.DS.updatePromise( Inventory, updateItem);
         this.DS.updatePromise( Transaction, this.returnForm.value );

@@ -4,17 +4,20 @@ import { IDataBaseObj } from './_base'
 export interface IInventory extends IDataBaseObj {
 
     itemID?: string;
+    class?: string;
     type?: string;
     subType?: string; 
     itemNum?: number;
     name?: string;
     description?: string;
+    location?: string;
     condition?: string;
+    status?: string;
     dateAdded?: Date;
     dateEdited?: Date;
     adddedBy?: string;
     editedBy?: string;
-    isDeleted?: number;
+    isArchived?: number;
 }
 
 export class Inventory implements IInventory {
@@ -24,17 +27,20 @@ export class Inventory implements IInventory {
     id : string;
 
     itemID?: string;
+    class?: string;
     type?: string;
     subType?: string; 
     itemNum?: number;
     name?: string;
     description?: string;
+    location?: string;
     condition?: string;
+    status?: string;
     dateAdded?: Date;
     dateEdited?: Date;
     adddedBy?: string;
     editedBy?: string;
-    isDeleted?: number;
+    isArchived?: number;
 
     constructor(props: IInventory) {
         Object.keys(props).forEach(prop => {
