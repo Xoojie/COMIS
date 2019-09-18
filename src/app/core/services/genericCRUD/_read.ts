@@ -66,7 +66,7 @@ export class DataRead {
             );
     }
 
-    async readPromise<T>(model: T | any, query?: HttpParams | string | any): Promise<T | any> {
+    async readPromise<T>(model: T | any,type?: string | any, query?: HttpParams | string | any): Promise<T | any> {
         this.DS.loadingMap[model.tableName] = true;
 
         const httpOpts = Object.assign({}, this.DS.httpOptions);
@@ -74,13 +74,11 @@ export class DataRead {
 
         if (query) {
             httpOpts.params = this.createSearchParams(query);
-            url = `${this.DS.endpoint}${model.tableName}/get/${httpOpts.params}`;
+            url = `${this.DS.endpoint}${model.tableName}/${type}/${httpOpts.params}`;
         } else {
             url = `${this.DS.endpoint}${model.tableName}`;
         }
-
-         // TODO: Spread query params for the fetch
-        // TODO: Attach Headers to Fetch
+        
         try {
             const res = await fetch(url);
             const resJson = await res.json();

@@ -1,9 +1,14 @@
-<h2 mat-dialog-title>New {{data.type}} </h2>
+<h2 mat-dialog-title>New {{data.class}} </h2>
 <div mat-dialog-content [formGroup] = "addInventoryForm" >
            
             <mat-form-field >
                 <mat-label> Temp Item ID</mat-label>
                 <input matInput formControlName = "itemID">
+            </mat-form-field>
+            <br>
+            <mat-form-field >
+                <mat-label>Type</mat-label>
+                <input matInput formControlName = "type">
             </mat-form-field>
             <br>
             <mat-form-field >
@@ -21,10 +26,15 @@
                 <input matInput formControlName = "description">
             </mat-form-field>
             <br>
+            <mat-form-field >
+                <mat-label>Location</mat-label>
+                <input matInput formControlName = "location">
+            </mat-form-field>
+            <br>
             <mat-form-field>
                 <mat-label>Condition</mat-label>
                 <input matInput formControlName = "condition">
-            </mat-form-field>  
+            </mat-form-field>
 </div>
 <div mat-dialog-actions>
     <button mat-button (click) = "submitAddInventoryForm()" >Add</button>

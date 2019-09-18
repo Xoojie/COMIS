@@ -9,6 +9,14 @@ const routes: Routes = [
         component: InventoryPageComponent,
         data: { shouldReuse: true, key: 'inventory' },
     },
+    {
+        path: 'inventoryConfig',
+        loadChildren: () =>
+            import('../inventory-config-page/inventory-config-page.module').then(
+                m => m.InventoryConfigPageModule,
+            ),
+        data: { title: 'Inventory Config', isChild: true },
+    },
 ];
 
 @NgModule({

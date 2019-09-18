@@ -36,7 +36,6 @@ export class AuthService extends CrudService {
         try {
             if (!(email === 'user' && password === 'user')) {
                 throw new Error(
-                    'When using mockLogin, login with credentials: \nemail: user\npassword:user',
                 );
             }
             this.token = 'user';

@@ -48,7 +48,7 @@ transactionRoute.route('/update/:id').put((req, res, next) => {
   })
 })
 //getLatest
-transactionRoute.route('/getLatest/:id').get((req, res) => {
+transactionRoute.route('/getLatest/id=:id').get((req, res) => {
     Transcation.findOne({ itemID: req.params.id },{},{ sort: { dateBorrowed : -1 } }, (error, data) => {
     if (error) {
       return next(error)

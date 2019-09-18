@@ -5,11 +5,11 @@ let Transaction = new Schema ({
     
     borrowerID : { type: Number },
     itemID : { type: String },
+    purpose : { type: String },
     dateBorrowed : { type: Date },
     dateReturned : { type: Date },
     lentBy : { type: String },
     receivedBy : { type: String },
-    remarks : { type : String},
     hasIncident : { type: Number} 
 },
 {
