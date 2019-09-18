@@ -17,6 +17,7 @@ mongoose.connect(dataBaseConfig.db, {
 )
 
 const inventoryRoute = require('./routes/inventory.route')
+const inventoryClassRoute = require('./routes/inventoryClass.route')
 const transactionRoute = require('./routes/transaction.route')
 
 const app = express();
@@ -29,6 +30,7 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, 'dist/comis.version.3')));
 
 app.use('/inventory', inventoryRoute)
+app.use('/inventoryClass', inventoryClassRoute)
 app.use('/transaction' , transactionRoute)
 
 const port = process.env.PORT || 8000;

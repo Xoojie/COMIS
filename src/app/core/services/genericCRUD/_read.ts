@@ -78,9 +78,7 @@ export class DataRead {
         } else {
             url = `${this.DS.endpoint}${model.tableName}`;
         }
-
-         // TODO: Spread query params for the fetch
-        // TODO: Attach Headers to Fetch
+        
         try {
             const res = await fetch(url);
             const resJson = await res.json();

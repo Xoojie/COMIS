@@ -4,7 +4,7 @@ import { DataService } from '../../core/services/genericCRUD/data.service'
 import { MatTableDataSource } from '@angular/material';
 import { MatDialog, MatDialogRef ,MatDialogConfig ,MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, Validators } from '@angular/forms';
-//import { BorrowReturnPageComponent } from '../borrow-return-page/borrow-return-page.component'
+// import { BorrowReturnPageComponent } from '../borrow-return-page/borrow-return-page.component'
 
 @Component({
     selector: 'app-inventory-page',
@@ -14,7 +14,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 
 export class InventoryPageComponent implements OnInit {
     
-    //inventory = new MatTableDataSource<IInventory>();
+    // inventory = new MatTableDataSource<IInventory>();
     inventory : Inventory[] = [];
     instrument : Inventory[] = [];
     accessory : Inventory[] = [];
@@ -28,7 +28,7 @@ export class InventoryPageComponent implements OnInit {
     constructor(
         public DS: DataService,
         public dialog: MatDialog,
-       //public BRC : BorrowReturnPageComponent,
+       // public BRC : BorrowReturnPageComponent,
     ) { }
 
     async readInventory() {
@@ -44,7 +44,7 @@ export class InventoryPageComponent implements OnInit {
         this.accessory = this.inventory.filter(function(item){
             return item.class == 'Accessory' && item.isArchived.toString() == '0'
         });
-        //this.BRC.readInventory();
+        // this.BRC.readInventory();
     }
 
     public applyFilter = (value: string) => {
@@ -193,8 +193,8 @@ export class editInventoryDialog implements OnInit {
 
     async readSingleInventory() {
         
-        const getIDquery = "id="+this.data.id ;
-        const type = "get";
+        const getIDquery = 'id='+this.data.id ;
+        const type = 'get';
         const inventoryPromise = this.DS.readPromise(Inventory ,type, getIDquery);
         const [inventoryRes] = await Promise.all([inventoryPromise]);
         this.singleInventorySource = inventoryRes;
@@ -208,7 +208,7 @@ export class editInventoryDialog implements OnInit {
     }
 
     submitDeleteInventoryForm(){
-        var deleteQuery = {
+        const deleteQuery = {
             id : this.data.id,
             isDeleted : '1'
         }

@@ -4,7 +4,7 @@ import { Transaction } from '../../core/models/Transaction';
 import { DataService } from '../../core/services/genericCRUD/data.service'
 import { MatTableDataSource } from '@angular/material';
 import { MatDialog, MatDialogRef ,MatDialogConfig ,MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormBuilder, Validators } from "@angular/forms";
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-borrow-return-page',
@@ -64,7 +64,7 @@ export class BorrowReturnPageComponent implements OnInit {
                 this.readInventory()
             });
         }else{
-            alert("Item is Unavailable");
+            alert('Item is Unavailable');
         }
     }    
 }
@@ -97,7 +97,7 @@ export class borrowDialog {
         }
     
     submitBorrowForm(){
-        var updateItem = {
+        const updateItem = {
             id: this.data.id,
             status: 'BORROWED'
         }
@@ -141,8 +141,8 @@ export class returnDialog implements OnInit {
         }
     
     async readLatestTransaction(){
-        const type = "getLatest"
-        const getIDquery = "id="+this.data.itemID ;
+        const type = 'getLatest'
+        const getIDquery = 'id='+this.data.itemID ;
         const readPromise = this.DS.readPromise(Transaction,type,getIDquery);
         const [readRes] = await Promise.all([readPromise]);
         this.singleTransactionSource = readRes;
@@ -158,7 +158,7 @@ export class returnDialog implements OnInit {
     }    
 
     submitReturnForm(){
-        var updateItem = {
+        const updateItem = {
             id : this.data.id,
             status : 'OK'
         }
