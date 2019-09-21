@@ -1,0 +1,23 @@
+<h2 mat-dialog-title>New {{data.class}} Type </h2>
+<div mat-dialog-content [formGroup] = "addSubTypeForm" >
+           
+            <mat-form-field >
+                <mat-label> Type </mat-label>
+                <input matInput formControlName = "type">
+            </mat-form-field>
+            <br>
+            <mat-form-field >
+                <mat-label> SubType </mat-label>
+                <input matInput formControlName = "subType">
+            </mat-form-field>
+            <br>
+            <mat-form-field >
+                <mat-label> SubType Abbreviation </mat-label>
+                <input matInput formControlName = "subTypeAbbv">
+            </mat-form-field>
+            
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click) = "submitAddSubTypeForm()" >Add</button>
+    <button mat-button (click)="onNoClick()">Back</button> 
+</div>

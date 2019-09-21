@@ -1,1 +1,111 @@
-<p>inventory-config-page works!</p>
+<div class = "main-content">
+<div class = "row">    
+   <div class = "col-4">
+        <mat-tab-group>
+        <mat-tab label="Instrument">
+            <div class="card">
+                <div class="card-header">  
+                      <button mat-raised-button color="primary" (click) = "openAddTypeDialog('Instrument')">Add Instrument Type</button>
+                </div>
+                <div class="card-body">
+                    <table mat-table [dataSource]="iType" class="mat-elevation-z8">
+                        
+                        <ng-container matColumnDef="type">
+                            <th mat-header-cell *matHeaderCellDef> Type </th>
+                            <td mat-cell *matCellDef="let iType"> {{iType.type}} </td>
+                        </ng-container>
+                    
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsType"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumnsType;" (click)="editTypeDialog(row , 'Instrument')"></tr>
+                    </table>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="Accesories">
+             <div class="card">
+                <div class="card-header">  
+                      <button mat-raised-button color="primary" (click) = "openAddTypeDialog('Accessory')">Add Accessory Type</button>
+                </div>
+                <div class="card-body">
+                    <table mat-table [dataSource]="aType" class="mat-elevation-z8">
+                        
+                        <ng-container matColumnDef="type">
+                            <th mat-header-cell *matHeaderCellDef> Type </th>
+                            <td mat-cell *matCellDef="let aType"> {{aType.type}} </td>
+                        </ng-container>
+                    
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsType"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumnsType;" (click)="editTypeDialog(row , 'Accessory')"></tr>
+                    </table>
+                </div>
+            </div>
+         </mat-tab>
+      </mat-tab-group>
+   </div>
+   <div class = "col-8">
+    <mat-tab-group>
+        <mat-tab label="Instrument">
+            <div class="card">
+                <div class="card-header">
+                  <button mat-raised-button color="primary" (click) = "openAddSubTypeDialog('Instrument')">Add Instrument SubType</button>
+                </div>
+                <div class="card-body">
+                    <table mat-table [dataSource]="iSubType" class="mat-elevation-z8">
+                        
+                        <ng-container matColumnDef="type">
+                            <th mat-header-cell *matHeaderCellDef> Type </th>
+                            <td mat-cell *matCellDef="let iSubType"> {{iSubType.type}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="subType">
+                            <th mat-header-cell *matHeaderCellDef> SubType </th>
+                            <td mat-cell *matCellDef="let iSubType"> {{iSubType.subType}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="subTypeAbbv">
+                            <th mat-header-cell *matHeaderCellDef> SubType Abbreviation </th>
+                            <td mat-cell *matCellDef="let iSubType"> {{iSubType.subTypeAbbv}} </td>
+                        </ng-container>
+                        
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsSubType"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumnsSubType;" (click)="editSubTypeDialog(row, 'Instrument')"></tr>
+                      </table>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="Accesories">
+            <div class="card">
+                <div class="card-header">
+                    <button mat-raised-button color="primary" (click) = "openAddSubTypeDialog('Accessory')">Add Accessory SubType</button>
+                  </div>
+                  <div class="card-body">
+                      <table mat-table [dataSource]="aSubType" class="mat-elevation-z8">
+                          
+                          <ng-container matColumnDef="type">
+                              <th mat-header-cell *matHeaderCellDef> Type </th>
+                              <td mat-cell *matCellDef="let aSubType"> {{aSubType.type}} </td>
+                          </ng-container>
+  
+                          <ng-container matColumnDef="subType">
+                              <th mat-header-cell *matHeaderCellDef> SubType </th>
+                              <td mat-cell *matCellDef="let aSubType"> {{aSubType.subType}} </td>
+                          </ng-container>
+  
+                          <ng-container matColumnDef="subTypeAbbv">
+                              <th mat-header-cell *matHeaderCellDef> SubType Abbreviation </th>
+                              <td mat-cell *matCellDef="let aSubType"> {{aSubType.subTypeAbbv}} </td>
+                          </ng-container>
+                          
+                          <tr mat-header-row *matHeaderRowDef="displayedColumnsSubType"></tr>
+                          <tr mat-row *matRowDef="let row; columns: displayedColumnsSubType;" (click)="editSubTypeDialog(row, 'Accessory')"></tr>
+                        </table>
+                  </div>
+            </div>
+         </mat-tab>
+      </mat-tab-group>
+   </div>
+</div>   
+</div>
+      
+
+

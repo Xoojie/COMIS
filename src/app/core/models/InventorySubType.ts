@@ -1,7 +1,7 @@
 import { TableMap } from '../services/tableMap/table-map';
 import { IDataBaseObj } from './_base';
 
-export interface IInventoryClass extends IDataBaseObj {
+export interface IInventorySubType extends IDataBaseObj {
 
     class?: string;
     type?: string;
@@ -9,9 +9,9 @@ export interface IInventoryClass extends IDataBaseObj {
     subTypeAbbv?: string;
 }
 
-export class InventoryClass implements IInventoryClass {
+export class InventorySubType implements IInventorySubType {
 
-    static tableName: string = TableMap.InventoryClass;
+    static tableName: string = TableMap.InventorySubType;
 
     id: string;
 
@@ -20,7 +20,7 @@ export class InventoryClass implements IInventoryClass {
     subType?: string;
     subTypeAbbv?: string;
 
-    constructor(props: IInventoryClass) {
+    constructor(props: IInventorySubType) {
         Object.keys(props).forEach(prop => {
             const value = prop[prop];
             this[prop] = value;

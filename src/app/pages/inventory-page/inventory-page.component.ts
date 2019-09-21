@@ -1,9 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { IInventory, Inventory } from '../../core/models/Inventory';
+import { Inventory } from '../../core/models/Inventory';
+import { InventorySubType } from '../../core/models/InventorySubType';
 import { DataService } from '../../core/services/genericCRUD/data.service'
 import { MatTableDataSource } from '@angular/material';
 import { MatDialog, MatDialogRef ,MatDialogConfig ,MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, Validators } from '@angular/forms';
+import { query } from '@angular/animations';
 // import { BorrowReturnPageComponent } from '../borrow-return-page/borrow-return-page.component'
 
 @Component({
@@ -50,7 +52,8 @@ export class InventoryPageComponent implements OnInit {
     public applyFilter = (value: string) => {
        
       }
-
+    
+    // TODO : refractor dialog functions
     openAddInstrumentDialog(): void {
         
         const dialogConfig = new MatDialogConfig();
@@ -122,7 +125,9 @@ export class InventoryPageComponent implements OnInit {
 export class addInventoryDialog {
 
     addInventoryForm : any;
-    
+    inventoryAbbv : any;
+    inventoryNum : any;
+
     constructor(
         public DS: DataService,
         public dialogRef: MatDialogRef<addInventoryDialog>,
@@ -130,25 +135,58 @@ export class addInventoryDialog {
         @Inject(MAT_DIALOG_DATA) public data: any
         ) {
             this.addInventoryForm = this.fb.group({
-                itemID :[''],
                 class: [data.class],
                 type : [''],
                 subType : [''],
-                itemNum : [''],
                 name : [''],
                 description: [''],
                 location: [''],
                 condition : [''],
-                status: ['OK'],
-                dateAdded : [new Date()],
+                status: [''],
+                dateAdded : [''],
                 dateEdited : [''],
-                addedBy : ['bandoy'],
+                addedBy : [''],
                 editedBy : [''],
                 isArchived : ['0'],
             })
         }
-
+    
     async submitAddInventoryForm() {
+        
+        // get Abbv
+        const type = 'get';
+        const getAbbv = 'class='+this.addInventoryForm.value.class+'&type='+this.addInventoryForm.value.type+'&subType='+this.addInventoryForm.value.subType;
+        const promise = this.DS.readPromise(InventorySubType , type , getAbbv );
+        const [res] = await Promise.all([promise]);
+        this.inventoryAbbv = res;
+
+        // get lastNum 
+        const getNum = 'subType='+this.addInventoryForm.value.subType;
+        const promise2 = this.DS.readPromise(Inventory , type , getNum );
+        const [res2] = await Promise.all([promise2]);
+        this.inventoryNum = res2;
+        
+        const newNum = this.inventoryNum.itemNum + 1;
+        const itemCode = this.inventoryAbbv[0].subTypeAbbv + '-' + newNum;
+
+        this.addInventoryForm = this.fb.group({
+            itemID :[itemCode],
+            itemNum : [newNum],
+            class: [this.addInventoryForm.value.class],
+            type : [this.addInventoryForm.value.type],
+            subType : [this.addInventoryForm.value.subType],
+            name : [this.addInventoryForm.value.name],
+            description: [this.addInventoryForm.value.description],
+            location: [this.addInventoryForm.value.location],
+            condition : [this.addInventoryForm.value.condition],
+            status: ['OK'],
+            dateAdded : [new Date()],
+            dateEdited : [''],
+            addedBy : ['bandoy'],
+            editedBy : [''],
+            isArchived : ['0'],
+        })
+
         this.DS.createPromise(Inventory , this.addInventoryForm.value);
         this.dialogRef.close();
     }
@@ -210,7 +248,7 @@ export class editInventoryDialog implements OnInit {
     submitDeleteInventoryForm(){
         const deleteQuery = {
             id : this.data.id,
-            isDeleted : '1'
+            isArchived : '1'
         }
 
         this.DS.updatePromise(Inventory, deleteQuery);

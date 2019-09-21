@@ -17,7 +17,7 @@ export class BorrowReturnPageComponent implements OnInit {
     inventory : Inventory[] = [];
     instrument : Inventory[] = [];
     accessory : Inventory[] = [];
-    displayedColumns: string[] = [ 'itemID' ,'type', 'subType' ,'name' , 'description' , 'condition' , 'status' ];
+    displayedColumns: string[] = [ 'itemID' ,'type', 'subType' ,'name' , 'description' ,'location', 'condition' , 'status' ];
 
     constructor(
         public DS: DataService,

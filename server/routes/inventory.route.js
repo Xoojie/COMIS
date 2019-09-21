@@ -47,6 +47,16 @@ inventoryRoute.route('/update/:id').put((req, res, next) => {
     }
   })
 })
+// get last itemnum
+inventoryRoute.route('/get/subType=:subType').get((req, res) => {
+  Inventory.findOne({ subType: req.params.subType },{},{ sort: { itemNum: -1}}, (error, data) => {
+if (error) {
+  return next(error)
+} else {
+  res.json(data)
+}
+})
+})
 
 
 
