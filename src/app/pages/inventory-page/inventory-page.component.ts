@@ -4,14 +4,7 @@ import { DataService } from '../../core/services/genericCRUD/data.service'
 import { MatTableDataSource } from '@angular/material';
 import { MatDialog, MatDialogRef ,MatDialogConfig ,MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, Validators } from '@angular/forms';
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-//import { BorrowReturnPageComponent } from '../borrow-return-page/borrow-return-page.component'
->>>>>>> de2bd74ffdb407e20c52cbff3adc544f0aca945c
-=======
-// import { BorrowReturnPageComponent } from '../borrow-return-page/borrow-return-page.component'
->>>>>>> 88fbc45320b59076c18f4e672b3fb889a751ce5d
+
 
 @Component({
     selector: 'app-inventory-page',
