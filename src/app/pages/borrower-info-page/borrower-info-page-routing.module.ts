@@ -9,6 +9,14 @@ const routes: Routes = [
         component: BorrowerInfoPageComponent,
         data: { shouldReuse: true, key: 'borrower-info' },
     },
+    {
+        path: 'incident',
+        loadChildren: () =>
+            import('../incident-page/incident-page.module').then(
+                m => m.IncidentPageModule,
+            ),
+        data: { title: 'Incidents', isChild: true },
+    },
 ];
 
 @NgModule({

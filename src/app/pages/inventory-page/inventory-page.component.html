@@ -3,12 +3,17 @@
   <mat-tab label="Instrument">
       <div class="card">
           <div class="card-header">
-            <div fxLayout fxLayoutAlign="center center">
-                    <mat-form-field fxFlex="40%">
-                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-                    </mat-form-field>
-                    <div fxFlex="50%"><button mat-raised-button color="primary" (click) = "openAddInstrumentDialog()">Add Instrument</button></div>
-                  </div>  
+            <div class = "row">
+              <div class = "col-10">
+                  <mat-form-field fxFlex="40%">
+                      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                  </mat-form-field>
+              </div>
+              <div class = "col-2">   
+                <button mat-raised-button color="primary" (click) = "openAddInstrumentDialog()">Add Instrument</button>
+                <button mat-icon-button color ="accent" [routerLink] = "['inventoryConfig']" ><i class="material-icons">settings_applications</i></button>
+              </div>
+            </div>
           </div>
           <div class="card-body">
               <table mat-table [dataSource]="instrument" class="mat-elevation-z8">
@@ -57,12 +62,17 @@
   <mat-tab label="Accesories">
       <div class="card">
           <div class="card-header">
-            <div fxLayout fxLayoutAlign="center center">
-                    <mat-form-field fxFlex="40%">
-                      <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Filter">
-                    </mat-form-field>
-                    <div fxFlex="50%"><button mat-raised-button color="primary" (click) = "openAddAccessoryDialog()">Add Accesory</button></div>
-                  </div>  
+            <div class = "row">
+              <div class = "col-10">
+                  <mat-form-field fxFlex="40%">
+                      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                  </mat-form-field>
+              </div>
+              <div class = "col-2">   
+                <button mat-raised-button color="primary" (click) = "openAddAccessoryDialog()">Add Accessory</button>
+                <button mat-icon-button color ="accent" [routerLink] = "['inventoryConfig']" ><i class="material-icons">settings_applications</i></button>
+              </div>
+            </div>  
           </div>
           <div class="card-body">
               <table mat-table [dataSource]="accessory" class="mat-elevation-z8">
@@ -109,4 +119,5 @@
       </div>
    </mat-tab>
 </mat-tab-group>
+//TODO : Filters , Dropdowns , Validations
 </div>

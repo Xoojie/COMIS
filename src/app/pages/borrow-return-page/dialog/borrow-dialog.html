@@ -3,12 +3,17 @@
            
             <mat-form-field >
                 <mat-label> Borrower ID</mat-label>
-                <input matInput formControlName = "borrowerID">
+                <input matInput formControlName = "borrowerID" required>
             </mat-form-field>
             <br>
             <mat-form-field >
                 <mat-label> Purpose </mat-label>
-                <input matInput formControlName = "purpose">
+                <select matNativeControl formControlName = "purpose" required>
+                    <option value="UST SO">UST SO</option>
+                    <option value="UST WO">UST WO</option>
+                    <option value="Rehearsal">Rehearsal</option>
+                    <option value="Others">Others</option>
+                  </select>
             </mat-form-field>
 </div>
 <div mat-dialog-actions>

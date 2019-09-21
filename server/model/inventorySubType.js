@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-let InventoryClass = new Schema ({
+let InventorySubType = new Schema ({
 
     class: { type:String},
     type: { type:String},
@@ -10,7 +10,7 @@ let InventoryClass = new Schema ({
 
 },
 {
-    collection: 'inventoryClass'
+    collection: 'inventorySubType'
 })
 
-module.exports = mongoose.model('InventoryClass',InventoryClass)
+module.exports = mongoose.model('InventorySubType',InventorySubType)
