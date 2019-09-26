@@ -57,8 +57,15 @@ transactionRoute.route('/getLatest/id=:id').get((req, res) => {
     }
   })
 })
-
-
-
-
+//get by borrower
+transactionRoute.route('/getByBorrower/id=:id').get((req, res) => {
+  Transcation.find({ borrowerID: req.params.id },{},{ sort: { dateBorrowed : -1 } }, (error, data) => {
+  if (error) {
+    return next(error)
+  } else {
+    res.json(data)
+  }
+})
+})
+// TODO CLEAR BY DATE , CLEAR ALL
 module.exports = transactionRoute;

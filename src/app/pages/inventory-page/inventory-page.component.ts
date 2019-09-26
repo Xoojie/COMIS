@@ -1,11 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Inventory } from '../../core/models/Inventory';
 import { InventorySubType } from '../../core/models/InventorySubType';
+import { InventoryType } from '../../core/models/InventoryType';
 import { DataService } from '../../core/services/genericCRUD/data.service'
 import { MatTableDataSource } from '@angular/material';
 import { MatDialog, MatDialogRef ,MatDialogConfig ,MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, Validators } from '@angular/forms';
-import { query } from '@angular/animations';
 // import { BorrowReturnPageComponent } from '../borrow-return-page/borrow-return-page.component'
 
 @Component({
@@ -18,8 +18,8 @@ export class InventoryPageComponent implements OnInit {
     
     // inventory = new MatTableDataSource<IInventory>();
     inventory : Inventory[] = [];
-    instrument : Inventory[] = [];
-    accessory : Inventory[] = [];
+    instrument : any;
+    accessory : any;
     displayedColumns: string[] = [ 'itemID' ,'type', 'subType' ,'name' , 'description' ,'location', 'condition' ];
     
 
@@ -46,19 +46,23 @@ export class InventoryPageComponent implements OnInit {
         this.accessory = this.inventory.filter(function(item){
             return item.class == 'Accessory' && item.isArchived.toString() == '0'
         });
+
+        this.instrument = new MatTableDataSource(this.instrument);
+        this.accessory = new MatTableDataSource(this.accessory);
         // this.BRC.readInventory();
     }
 
-    public applyFilter = (value: string) => {
-       
+    applyFilter(filterValue: string) {
+        this.instrument.filter = filterValue.trim().toLowerCase();
+        this.accessory.filter = filterValue.trim().toLowerCase();
       }
     
     // TODO : refractor dialog functions
-    openAddInstrumentDialog(): void {
+    openAddInventoryDialog(classs):void {
         
         const dialogConfig = new MatDialogConfig();
         dialogConfig.data = {
-            class : 'Instrument'
+            class : classs
         };
 
         this.dialog.open(addInventoryDialog, dialogConfig).afterClosed().subscribe(result => {
@@ -66,22 +70,10 @@ export class InventoryPageComponent implements OnInit {
         });
     }
 
-    openAddAccessoryDialog(): void {
-        
+    editInventory(row , classs) {
         const dialogConfig = new MatDialogConfig();
         dialogConfig.data = {
-            class : 'Accessory'
-        };
-
-        this.dialog.open(addInventoryDialog, dialogConfig).afterClosed().subscribe(result => {
-            this.readInventory()
-        });
-    }
-
-    editInstrument(row) {
-        const dialogConfig = new MatDialogConfig();
-        dialogConfig.data = {
-            class : 'Instrument',
+            class : classs,
             type : row.type,
             id : row._id, 
             itemID : '',
@@ -97,24 +89,6 @@ export class InventoryPageComponent implements OnInit {
         });
     }
 
-    editAccessory(row) {
-        const dialogConfig = new MatDialogConfig();
-        dialogConfig.data = {
-            class : 'Accessory',
-            type : row.type,
-            id : row._id, 
-            itemID : '',
-            subType : '',
-            name: row.name,
-            description : row.description,
-            condition : row.condition,
-            location : row.location
-        };
-
-        this.dialog.open(editInventoryDialog, dialogConfig).afterClosed().subscribe(result => {
-            this.readInventory()
-        });
-    }  
 }
 
 @Component({
@@ -122,11 +96,13 @@ export class InventoryPageComponent implements OnInit {
     templateUrl : './dialog/addInventory-dialog.html',
 })
 
-export class addInventoryDialog {
+export class addInventoryDialog implements OnInit{
 
     addInventoryForm : any;
     inventoryAbbv : any;
     inventoryNum : any;
+    types : any;
+    subTypes: any;
 
     constructor(
         public DS: DataService,
@@ -151,6 +127,29 @@ export class addInventoryDialog {
             })
         }
     
+    ngOnInit() {
+        this.readType();
+    }
+
+    async readType(){
+
+        const query = "class=" + this.data.class;
+        const type = "get";
+        const promise = this.DS.readPromise(InventoryType , type , query);
+        const [res] = await Promise.all([promise]);
+        this.types = res;
+    }
+    
+    async readSubType(type){
+
+        const query = "class=" + this.data.class + "&type=" + type.value; 
+        const types = "get";
+        const promise = this.DS.readPromise(InventorySubType , types , query);
+        const [res] = await Promise.all([promise]);
+        this.subTypes = res;
+
+    }
+    
     async submitAddInventoryForm() {
         
         // get Abbv
@@ -166,7 +165,13 @@ export class addInventoryDialog {
         const [res2] = await Promise.all([promise2]);
         this.inventoryNum = res2;
         
-        const newNum = this.inventoryNum.itemNum + 1;
+        let newNum = 0;
+        if(this.inventoryNum == null){
+            newNum = 1;
+        }else{
+            newNum = this.inventoryNum.itemNum + 1;
+        } 
+       
         const itemCode = this.inventoryAbbv[0].subTypeAbbv + '-' + newNum;
 
         this.addInventoryForm = this.fb.group({
@@ -245,13 +250,13 @@ export class editInventoryDialog implements OnInit {
         this.dialogRef.close();
     }
 
-    submitDeleteInventoryForm(){
-        const deleteQuery = {
+    submitArchiveInventoryForm(){
+        const ArchiveQuery = {
             id : this.data.id,
             isArchived : '1'
         }
 
-        this.DS.updatePromise(Inventory, deleteQuery);
+        this.DS.updatePromise(Inventory, ArchiveQuery);
         this.dialogRef.close(); 
     }
 

@@ -6,5 +6,6 @@ export class TableMap {
     static Incident = 'incident';
     static Borrower = 'borrower';
     static Account = 'account';
+    static Audit = 'audit';
     
 }

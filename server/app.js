@@ -20,6 +20,8 @@ const inventoryRoute = require('./routes/inventory.route')
 const inventoryTypeRoute = require('./routes/inventoryType.route')
 const inventorySubTypeRoute = require('./routes/inventorySubType.route')
 const transactionRoute = require('./routes/transaction.route')
+const borrowerRoute = require('./routes/borrower.route')
+const incidentRoute = require('./routes/incident.route')
 
 const app = express();
 app.use(bodyParser.json());
@@ -34,6 +36,8 @@ app.use('/inventory', inventoryRoute)
 app.use('/inventoryType', inventoryTypeRoute)
 app.use('/inventorySubType', inventorySubTypeRoute)
 app.use('/transaction' , transactionRoute)
+app.use('/borrower' , borrowerRoute)
+app.use('/incident' , incidentRoute)
 
 const port = process.env.PORT || 8000;
 

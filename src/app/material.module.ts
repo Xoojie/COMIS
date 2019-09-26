@@ -37,7 +37,8 @@ import {
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
-    MatTableModule
+    MatTableModule,
+    MatPaginatorModule 
   } from '@angular/material';
 
 
@@ -84,7 +85,8 @@ import {
       MatNativeDateModule,
       MatTableModule,
       FormsModule,
-      ReactiveFormsModule
+      ReactiveFormsModule,
+      MatPaginatorModule 
     ],
   
    

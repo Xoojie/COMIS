@@ -2,13 +2,21 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { IncidentPageRoutingModule } from './incident-page-routing.module';
-import { IncidentPageComponent } from './incident-page.component';
+import { IncidentPageComponent , editIncidentDialog } from './incident-page.component';
+import { MaterialModule } from '../../material.module'; 
+
 
 @NgModule({
-  declarations: [IncidentPageComponent],
+  entryComponents: [
+    editIncidentDialog
+  ],
+  declarations: [
+  IncidentPageComponent,
+  editIncidentDialog],
   imports: [
     CommonModule,
-    IncidentPageRoutingModule
+    IncidentPageRoutingModule,
+    MaterialModule
   ]
 })
 export class IncidentPageModule { }

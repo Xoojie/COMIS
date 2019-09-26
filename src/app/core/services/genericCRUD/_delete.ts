@@ -67,21 +67,15 @@ export class DataDelete {
     }
 
     async deletePromise<T>(model: T | any, objToDelete: T | any): Promise<T | any> {
-        if (this.DS.isOptimistic) {
-            // Optimistically Remove the object to delete from the front end cache by filtering out everything that doesn't have the same key
-            this.DS.cache[model.tableName] = this.DS.cache[model.tableName].filter(el => el.key !== objToDelete.key);
-        }
-
-        const url = `${this.DS.endpoint}${model.tableName}/delete/${objToDelete.key || objToDelete.id}`;
+      
+        const url = `${this.DS.endpoint}${model.tableName}/delete/${objToDelete.id}`;
         try {
             const res = await fetch(url, {
                 method: 'DELETE',
                 body: JSON.stringify(objToDelete)
             });
             const resJson = await res.json();
-            if (!this.DS.isOptimistic) { // wait for the server response before modifying the front end
-                this.DS.cache[model.tableName] = this.DS.cache[model.tableName].filter(el => el.key !== objToDelete.key);
-            }
+           
             return resJson;
         }
         catch (err) {

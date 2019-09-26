@@ -1,5 +1,12 @@
-<div class = "main-content">
-<mat-tab-group>
+<div class = "row">
+    <div class = "col-10"></div>
+    <div class = "col-2">
+    <button mat-icon-button color ="accent" class = "bigButton" [routerLink] = "['inventoryConfig']" ><i class="material-icons">settings_applications</i></button>
+    </div>
+</div>
+
+<div class = "row">
+<mat-tab-group class = "card2">
   <mat-tab label="Instrument">
       <div class="card">
           <div class="card-header">
@@ -10,8 +17,10 @@
                   </mat-form-field>
               </div>
               <div class = "col-2">   
-                <button mat-raised-button color="primary" (click) = "openAddInstrumentDialog()">Add Instrument</button>
-                <button mat-icon-button color ="accent" [routerLink] = "['inventoryConfig']" ><i class="material-icons">settings_applications</i></button>
+                <button mat-icon-button class="smallButton" color="accent" (click) = "openAddInventoryDialog('Instrument')"><i class="material-icons">
+                    add_to_photos
+                    </i></button>
+                
               </div>
             </div>
           </div>
@@ -54,7 +63,7 @@
                   </ng-container>
 
                   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                  <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="editInstrument(row)"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="editInventory(row , 'Instrument')"></tr>
                 </table>
           </div>
       </div>
@@ -69,8 +78,8 @@
                   </mat-form-field>
               </div>
               <div class = "col-2">   
-                <button mat-raised-button color="primary" (click) = "openAddAccessoryDialog()">Add Accessory</button>
-                <button mat-icon-button color ="accent" [routerLink] = "['inventoryConfig']" ><i class="material-icons">settings_applications</i></button>
+                <button mat-icon-button color="accent" class="smallButton"(click) = "openAddInventoryDialog('Accessory')"><i class="material-icons">
+                    add_to_photos</i> </button>
               </div>
             </div>  
           </div>
@@ -113,11 +122,12 @@
                 </ng-container>
 
                   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                  <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="editAccessory(row)"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="editInventory(row , 'Accessory')"></tr>
                 </table>
           </div>
       </div>
    </mat-tab>
 </mat-tab-group>
-//TODO : Filters , Dropdowns , Validations
 </div>
+//TODO : Filters , Dropdowns , Validations , Archive Page
+
