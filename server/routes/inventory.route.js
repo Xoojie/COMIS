@@ -57,6 +57,18 @@ if (error) {
 }
 })
 })
+//delete
+inventoryRoute.route('/delete/:id').delete((req, res, next) => {
+  Inventory.findByIdAndRemove(req.params.id, (error, data) => {
+    if (error) {
+      return next(error);
+    } else {
+      res.status(200).json({
+        msg: data
+      })
+    }
+  })
+})
 
 
 

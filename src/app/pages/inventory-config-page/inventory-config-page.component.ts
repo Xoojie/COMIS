@@ -175,7 +175,8 @@ export class editTypeDialog {
   }
 
   deleteType() {
-      //TODO
+      this.DS.deletePromise(InventoryType , this.editTypeForm.value);
+      this.dialogRef.close();
   }
 
   onNoClick(): void {
@@ -189,9 +190,10 @@ export class editTypeDialog {
   templateUrl : './dialog/add-subtype-dialog.html',
 })
 
-export class addSubTypeDialog {
+export class addSubTypeDialog implements OnInit {
 
   addSubTypeForm : any;
+  types : any;
 
   constructor(
     public DS: DataService,
@@ -206,6 +208,19 @@ export class addSubTypeDialog {
           subTypeAbbv : ['']
         })
     }
+
+  ngOnInit() {
+      this.readType();
+  }
+  
+  async readType(){
+
+    const query = "class=" + this.data.class;
+    const type = "get";
+    const promise = this.DS.readPromise(InventoryType , type , query);
+    const [res] = await Promise.all([promise]);
+    this.types = res;
+}
 
   submitAddSubTypeForm(){
     this.DS.createPromise(InventorySubType , this.addSubTypeForm.value);
@@ -248,7 +263,8 @@ export class editSubTypeDialog {
     }
 
     deleteSubType() {
-      //TODO
+     this.DS.deletePromise(InventorySubType , this.editSubTypeForm.value );
+     this.dialogRef.close();
     }
 
     onNoClick(): void {

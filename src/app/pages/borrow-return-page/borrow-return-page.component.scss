@@ -1,3 +1,21 @@
 table {
-    width: 100%;
-  }
+  width : 100%;
+  overflow-y: scroll;
+}
+
+.row  {
+  &.dialog {
+     margin-bottom: 20px;
+      
+      table {
+          margin-left: 15px;
+          margin-right: 10px;
+      }
+  }    
+}
+
+textarea {
+  width: 300px;
+  height: 150px;
+
+}
