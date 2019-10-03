@@ -17,7 +17,6 @@ export interface IInventory extends IDataBaseObj {
     dateEdited?: Date;
     adddedBy?: string;
     editedBy?: string;
-    isArchived?: number;
 }
 
 export class Inventory implements IInventory {
@@ -40,7 +39,6 @@ export class Inventory implements IInventory {
     dateEdited?: Date;
     adddedBy?: string;
     editedBy?: string;
-    isArchived?: number;
 
     constructor(props: IInventory) {
         Object.keys(props).forEach(prop => {

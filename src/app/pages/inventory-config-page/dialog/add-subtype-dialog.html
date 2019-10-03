@@ -18,6 +18,9 @@
             <mat-form-field >
                 <mat-label> SubType Abbreviation </mat-label>
                 <input matInput formControlName = "subTypeAbbv">
+                <mat-error *ngIf="hasError('subTypeAbbv', 'maxlength')">You have more than 3 characters</mat-error>
+                <mat-error *ngIf="hasError('subTypeAbbv', 'minlength')">You have less than 3 characters</mat-error>
+                <mat-error *ngIf="hasError('subTypeAbbv', 'pattern')">It has to be all capital</mat-error>
             </mat-form-field>
             
 </div>

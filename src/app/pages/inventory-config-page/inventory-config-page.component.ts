@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { DataService } from '../../core/services/genericCRUD/data.service';
 import { MatTableDataSource } from '@angular/material';
 import { MatDialog, MatDialogRef ,MatDialogConfig ,MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators , FormControl } from '@angular/forms';
 
 import { InventoryType } from '../../core/models/InventoryType';
 import { InventorySubType } from '../../core/models/InventorySubType';
@@ -18,11 +18,13 @@ export class InventoryConfigPageComponent implements OnInit {
   type : InventoryType[] = [];
   iType = [];
   aType = [];
+  mType = [];
   displayedColumnsType : string[] = ['type'];
 
   subType : InventorySubType[] = [];
   iSubType = [];
   aSubType = [];
+  mSubType = [];
   displayedColumnsSubType : string[] = ['type' , 'subType' , 'subTypeAbbv'];
 
   constructor(
@@ -47,6 +49,10 @@ export class InventoryConfigPageComponent implements OnInit {
     this.aType = this.type.filter(function(item){
       return item.class == "Accessory"
     });
+
+    this.mType = this.type.filter(function(item){
+      return item.class == "Multimedia"
+    });
   }
 
   async readSubType() {
@@ -60,6 +66,10 @@ export class InventoryConfigPageComponent implements OnInit {
 
     this.aSubType = this.subType.filter(function(item){
       return item.class == "Accessory"
+    });
+
+    this.mSubType = this.subType.filter(function(item){
+      return item.class == "Multimedia"
     });
   }
 
@@ -137,8 +147,11 @@ export class addTypeDialog {
     }
 
   submitAddTypeForm() {
-    this.DS.createPromise(InventoryType , this.addTypeForm.value);
-    this.dialogRef.close();
+    if (this.addTypeForm.valid){
+      this.DS.createPromise(InventoryType , this.addTypeForm.value);
+      this.dialogRef.close();
+    } 
+   
   }
 
   onNoClick(): void {
@@ -170,8 +183,11 @@ export class editTypeDialog {
     }
 
   submitEditTypeForm() {
-    this.DS.updatePromise(InventoryType, this.editTypeForm.value);
-    this.dialogRef.close();
+    if (this.editTypeForm.valid){
+      this.DS.updatePromise(InventoryType, this.editTypeForm.value);
+      this.dialogRef.close();
+    } 
+    
   }
 
   deleteType() {
@@ -200,17 +216,20 @@ export class addSubTypeDialog implements OnInit {
     public dialogRef: MatDialogRef<addSubTypeDialog>,
     public fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any
-    ) {
-        this.addSubTypeForm = this.fb.group({
-          class : [data.class],
-          type : [''],
-          subType : [''],
-          subTypeAbbv : ['']
-        })
-    }
+    ) {}
 
   ngOnInit() {
       this.readType();
+      this.addSubTypeForm = this.fb.group({
+        class : [this.data.class],
+        type : [''],
+        subType : [''],
+        subTypeAbbv : new FormControl('', [Validators.required, Validators.maxLength(3) , Validators.minLength(3) , Validators.pattern('[A-Z]+')])
+      })
+  }
+
+  public hasError = (controlName: string, errorName: string) =>{
+    return this.addSubTypeForm.controls[controlName].hasError(errorName);
   }
   
   async readType(){
@@ -223,8 +242,10 @@ export class addSubTypeDialog implements OnInit {
 }
 
   submitAddSubTypeForm(){
-    this.DS.createPromise(InventorySubType , this.addSubTypeForm.value);
-    this.dialogRef.close();
+    if (this.addSubTypeForm.valid){
+      this.DS.createPromise(InventorySubType , this.addSubTypeForm.value);
+      this.dialogRef.close();
+    } 
   }
   
   onNoClick(): void {
@@ -258,8 +279,11 @@ export class editSubTypeDialog {
     }
 
     submitEditSubTypeForm() {
-      this.DS.updatePromise(InventorySubType , this.editSubTypeForm.value);
-      this.dialogRef.close();
+      if (this.editSubTypeForm.valid){
+        this.DS.updatePromise(InventorySubType , this.editSubTypeForm.value);
+        this.dialogRef.close();
+      }
+     
     }
 
     deleteSubType() {

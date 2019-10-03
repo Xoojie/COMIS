@@ -6,7 +6,6 @@ import { DataService } from '../../core/services/genericCRUD/data.service'
 import { MatTableDataSource } from '@angular/material';
 import { MatDialog, MatDialogRef ,MatDialogConfig ,MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, Validators } from '@angular/forms';
-// import { BorrowReturnPageComponent } from '../borrow-return-page/borrow-return-page.component'
 
 @Component({
     selector: 'app-inventory-page',
@@ -20,6 +19,7 @@ export class InventoryPageComponent implements OnInit {
     inventory : Inventory[] = [];
     instrument : any;
     accessory : any;
+    multimedia : any;
     displayedColumns: string[] = [ 'itemID' ,'type', 'subType' ,'name' , 'description' ,'location', 'condition' ];
     
 
@@ -30,7 +30,6 @@ export class InventoryPageComponent implements OnInit {
     constructor(
         public DS: DataService,
         public dialog: MatDialog,
-       // public BRC : BorrowReturnPageComponent,
     ) { }
 
     async readInventory() {
@@ -41,15 +40,18 @@ export class InventoryPageComponent implements OnInit {
         this.inventory = inventoryRes;
 
         this.instrument = this.inventory.filter(function(item){
-            return item.class == 'Instrument' && item.isArchived.toString() == '0'
+            return item.class == 'Instrument' 
         });
         this.accessory = this.inventory.filter(function(item){
-            return item.class == 'Accessory' && item.isArchived.toString() == '0'
+            return item.class == 'Accessory' 
+        });
+        this.multimedia = this.inventory.filter(function(item){
+            return item.class == 'Multimedia'
         });
 
         this.instrument = new MatTableDataSource(this.instrument);
         this.accessory = new MatTableDataSource(this.accessory);
-        // this.BRC.readInventory();
+        this.multimedia = new MatTableDataSource(this.multimedia);
     }
 
     applyFilter(filterValue: string) {
@@ -122,8 +124,7 @@ export class addInventoryDialog implements OnInit{
                 dateAdded : [''],
                 dateEdited : [''],
                 addedBy : [''],
-                editedBy : [''],
-                isArchived : ['0'],
+                editedBy : ['']
             })
         }
     
@@ -152,48 +153,50 @@ export class addInventoryDialog implements OnInit{
     
     async submitAddInventoryForm() {
         
-        // get Abbv
-        const type = 'get';
-        const getAbbv = 'class='+this.addInventoryForm.value.class+'&type='+this.addInventoryForm.value.type+'&subType='+this.addInventoryForm.value.subType;
-        const promise = this.DS.readPromise(InventorySubType , type , getAbbv );
-        const [res] = await Promise.all([promise]);
-        this.inventoryAbbv = res;
+        if (this.addInventoryForm.valid){
+                // get Abbv
+            const type = 'get';
+            const getAbbv = 'class='+this.addInventoryForm.value.class+'&type='+this.addInventoryForm.value.type+'&subType='+this.addInventoryForm.value.subType;
+            const promise = this.DS.readPromise(InventorySubType , type , getAbbv );
+            const [res] = await Promise.all([promise]);
+            this.inventoryAbbv = res;
 
-        // get lastNum 
-        const getNum = 'subType='+this.addInventoryForm.value.subType;
-        const promise2 = this.DS.readPromise(Inventory , type , getNum );
-        const [res2] = await Promise.all([promise2]);
-        this.inventoryNum = res2;
+            // get lastNum 
+            const getNum = 'subType='+this.addInventoryForm.value.subType;
+            const promise2 = this.DS.readPromise(Inventory , type , getNum );
+            const [res2] = await Promise.all([promise2]);
+            this.inventoryNum = res2;
         
-        let newNum = 0;
-        if(this.inventoryNum == null){
-            newNum = 1;
-        }else{
-            newNum = this.inventoryNum.itemNum + 1;
-        } 
+            let newNum = 0;
+            if(this.inventoryNum == null){
+                newNum = 1;
+            }else{
+                newNum = this.inventoryNum.itemNum + 1;
+            } 
        
-        const itemCode = this.inventoryAbbv[0].subTypeAbbv + '-' + newNum;
+            const itemCode = this.inventoryAbbv[0].subTypeAbbv + '-' + newNum;
 
-        this.addInventoryForm = this.fb.group({
-            itemID :[itemCode],
-            itemNum : [newNum],
-            class: [this.addInventoryForm.value.class],
-            type : [this.addInventoryForm.value.type],
-            subType : [this.addInventoryForm.value.subType],
-            name : [this.addInventoryForm.value.name],
-            description: [this.addInventoryForm.value.description],
-            location: [this.addInventoryForm.value.location],
-            condition : [this.addInventoryForm.value.condition],
-            status: ['OK'],
-            dateAdded : [new Date()],
-            dateEdited : [''],
-            addedBy : ['bandoy'],
-            editedBy : [''],
-            isArchived : ['0'],
-        })
+            this.addInventoryForm = this.fb.group({
+                itemID :[itemCode],
+                itemNum : [newNum],
+                class: [this.addInventoryForm.value.class],
+                type : [this.addInventoryForm.value.type],
+                subType : [this.addInventoryForm.value.subType],
+                name : [this.addInventoryForm.value.name],
+                description: [this.addInventoryForm.value.description],
+                location: [this.addInventoryForm.value.location],
+                condition : [this.addInventoryForm.value.condition],
+                status: ['OK'],
+                dateAdded : [new Date()],
+                dateEdited : [''],
+                addedBy : ['bandoy'],
+                editedBy : ['']
+            })
 
-        this.DS.createPromise(Inventory , this.addInventoryForm.value);
-        this.dialogRef.close();
+            this.DS.createPromise(Inventory , this.addInventoryForm.value);
+            this.dialogRef.close();
+        }
+    
     }
         
     onNoClick(): void {
@@ -246,18 +249,16 @@ export class editInventoryDialog implements OnInit {
     }
 
     submitEditInventoryForm(){
-        this.DS.updatePromise(Inventory, this.editInventoryForm.value);
-        this.dialogRef.close();
+        if (this.editInventoryForm.valid){
+            this.DS.updatePromise(Inventory, this.editInventoryForm.value);
+            this.dialogRef.close();
+        }
+        
     }
 
-    submitArchiveInventoryForm(){
-        const ArchiveQuery = {
-            id : this.data.id,
-            isArchived : '1'
-        }
-
-        this.DS.updatePromise(Inventory, ArchiveQuery);
-        this.dialogRef.close(); 
+    deleteItem() {
+        this.DS.deletePromise(Inventory , this.editInventoryForm.value );
+        this.dialogRef.close();
     }
 
     onNoClick(): void {

@@ -24,24 +24,42 @@
         </table>
 
 </div>
-<div class = "row" [formGroup] = "incidentForm">           
-        
-    <div class = "col-4">
-        <label> ID </label> : {{data.bID}} <br>
-        <label> Name </label> : {{data.firstName}} {{data.lastName}}
+<div class = "row" >           
+    <div class = "container-fluid">
+        <div class = "row" [formGroup] = "updateItemForm">
+            <div class = "col-6">
+            <label> ID </label> : {{data.bID}} <br>
+            <label> Name </label> : {{data.firstName}} {{data.lastName}}
+            </div>
+            <div class = "col-6" >
+                <mat-form-field>
+                    <mat-label>Item Condition</mat-label>
+                    <mat-select formControlName = "condition">
+                        <mat-option value = "OK">OK</mat-option>
+                        <mat-option value = "For Repair">For Repair</mat-option>
+                        <mat-option value = "For Disposal">For Disposal</mat-option>
+                    </mat-select>
+
+                </mat-form-field>
+            </div>
+        </div>
+        <div class = "row" [formGroup] = "incidentForm">
+            <div class = "col-6">
+                <mat-form-field >
+                <mat-label> Borrower Description </mat-label>
+                <textarea matInput formControlName = "borrowerDescription" > </textarea>
+                </mat-form-field>
+            </div>
+            <div class = "col-6">
+                <mat-form-field >
+                <mat-label> Admin Description </mat-label>
+                <textarea matInput formControlName = "adminDescription" > </textarea>
+                </mat-form-field>
+            </div>
+        </div>
     </div>
-    <div class = "col-4">
-        <mat-form-field >
-            <mat-label> Admin Description </mat-label>
-            <textarea matInput formControlName = "adminDescription" > </textarea>
-        </mat-form-field>
-    </div>
-    <div class = "col-4">
-        <mat-form-field >
-            <mat-label> Borrower Description </mat-label>
-            <textarea matInput formControlName = "borrowerDescription" > </textarea>
-        </mat-form-field>
-    </div> 
+    
+ 
 
 </div>
 </div>

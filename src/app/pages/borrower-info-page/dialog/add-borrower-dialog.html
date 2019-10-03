@@ -9,12 +9,11 @@
             <br>
             <mat-form-field >
                 <mat-label> Type </mat-label>
-                <input matInput formControlName = "IDType">
-            </mat-form-field>
-            <br>
-            <mat-form-field >
-                <mat-label> Occupation </mat-label>
-                <input matInput formControlName = "Occupation">
+                <mat-select formControlName = "IDType" required>
+                        <mat-option value="Student">Student</mat-option>
+                        <mat-option value="Employee">Employee</mat-option>
+                        <mat-option value="Others">Others</mat-option>
+                    </mat-select>
             </mat-form-field>
             <br>
             <mat-form-field >

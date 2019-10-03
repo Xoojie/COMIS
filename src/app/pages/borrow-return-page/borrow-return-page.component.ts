@@ -38,10 +38,10 @@ export class BorrowReturnPageComponent implements OnInit {
         this.inventory = inventoryRes;
 
         this.instrument = this.inventory.filter(function(item){
-            return item.class == 'Instrument' && item.isArchived.toString() == '0'
+            return item.class == 'Instrument' 
         });
         this.accessory = this.inventory.filter(function(item){
-            return item.class == 'Accessory' && item.isArchived.toString() == '0'
+            return item.class == 'Accessory' 
         });
 
         this.instrument = new MatTableDataSource(this.instrument);
@@ -111,9 +111,13 @@ export class borrowDialog {
             id: this.data.id,
             status: 'BORROWED'
         }
-        this.DS.updatePromise(Inventory,updateItem);
-        this.DS.createPromise(Transaction, this.borrowForm.value);
-        this.dialogRef.close();
+
+        if (this.borrowForm.valid){
+            this.DS.updatePromise(Inventory,updateItem);
+            this.DS.createPromise(Transaction, this.borrowForm.value);
+            this.dialogRef.close();
+        }
+        
     }
         
     onNoClick(): void {
@@ -174,14 +178,17 @@ export class returnDialog implements OnInit {
             id : this.data.id,
             status : 'OK'
         }
-        this.DS.updatePromise( Inventory, updateItem);
-        this.DS.updatePromise( Transaction, this.returnForm.value );
-        this.dialogRef.close(); 
+        if (this.returnForm.valid){
+            this.DS.updatePromise( Inventory, updateItem);
+            this.DS.updatePromise( Transaction, this.returnForm.value );
+            this.dialogRef.close();
+        }
     }
 
     hasIncident(){
         const dialogConfigIncident = new MatDialogConfig();
         dialogConfigIncident.data = {
+            itemObjectID : this.data.id,
             id : this.singleTransactionSource._id,
             itemID : this.singleTransactionSource.itemID,
             itemObject : this.data.id,
@@ -213,6 +220,7 @@ export class returnDialog implements OnInit {
 export class incidentDialog implements OnInit {
 
     incidentForm : any;
+    updateItemForm : any;
     borrowerInfo : any;
     transactionRaw : Transaction[] = [];
     transaction : any;
@@ -239,6 +247,11 @@ export class incidentDialog implements OnInit {
         this.readBorrower();
         this.readTransaction();
         console.log(this.transaction);
+        this.updateItemForm = this.fb.group({
+            id : [this.data.itemObjectID],
+            condition : [''],
+            status : ['OK']
+        })
     }
 
     async readBorrower(){
@@ -251,7 +264,7 @@ export class incidentDialog implements OnInit {
         this.data.lastName = this.borrowerInfo.lastName;
         let bName = this.data.firstName + " " + this.data.lastName;
         this.incidentForm = this.fb.group({
-            data : [new Date],
+            date : [new Date],
             tID : [this.data.id],
             bID : [this.data.bID],
             bName : [bName],
@@ -272,11 +285,6 @@ export class incidentDialog implements OnInit {
     }
 
     submitIncidentForm() {
-        let ItemUpdate = {
-            id: this.data.itemObject,
-            condition : 'For Repair',
-            status : 'OK'
-        }
 
         let TransactionUpdate = {
             id : this.data.id,
@@ -284,10 +292,14 @@ export class incidentDialog implements OnInit {
             receivedBy : 'bandoy',
             hasIncident :'1'
         }
-        this.DS.updatePromise(Inventory , ItemUpdate );
-        this.DS.updatePromise(Transaction , TransactionUpdate);
-        this.DS.createPromise(Incident , this.incidentForm.value );
-        this.dialogRef.close();
+
+        if (this.incidentForm.valid){
+            this.DS.updatePromise(Inventory , this.updateItemForm.value );
+            this.DS.updatePromise(Transaction , TransactionUpdate);
+            this.DS.createPromise(Incident , this.incidentForm.value );
+            this.dialogRef.close();
+        } 
+        
     }
         
     onNoClick(): void {

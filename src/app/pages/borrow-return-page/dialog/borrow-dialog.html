@@ -8,12 +8,13 @@
             <br>
             <mat-form-field >
                 <mat-label> Purpose </mat-label>
-                <select matNativeControl formControlName = "purpose" required>
-                    <option value="UST SO">UST SO</option>
-                    <option value="UST WO">UST WO</option>
-                    <option value="Rehearsal">Rehearsal</option>
-                    <option value="Others">Others</option>
-                  </select>
+                <mat-select formControlName = "purpose" required>
+                    <mat-option value="UST SO">UST SO</mat-option>
+                    <mat-option value="UST WO">UST WO</mat-option>
+                    <mat-option value="Rehearsal">Rehearsal</mat-option>
+                    <mat-option value="Others">Others</mat-option>
+                </mat-select>
+
             </mat-form-field>
 </div>
 <div mat-dialog-actions>

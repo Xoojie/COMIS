@@ -5,7 +5,6 @@ export interface IBorrower extends IDataBaseObj {
 
     bID?: string;
     IDType?: string;
-    Occupation?: string;
     firstName?: string;
     lastName?: string;
     isBan?: number;
@@ -19,7 +18,6 @@ export class Borrower implements IBorrower {
 
     bID?: string;
     IDType?: string;
-    Occupation?: string;
     firstName?: string;
     lastName?: string;
     isBan?: number;

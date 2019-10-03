@@ -18,7 +18,7 @@ export class BorrowerInfoPageComponent implements OnInit {
     borrower : any;
     borrowerRaw : Borrower[] = [];
   
-    displayedColumnsBorrower : string[] = ['bID' , 'IDType' , 'Occupation' , 'name'];
+    displayedColumnsBorrower : string[] = ['bID' , 'IDType' , 'name'];
 
     constructor(
         public DS: DataService,
@@ -55,7 +55,6 @@ export class BorrowerInfoPageComponent implements OnInit {
             id: row._id,
             bID : row.bID,
             IDType : row.IDType,
-            Occupation : row.Occupation,
             firstName : row.firstName,
             lastName : row.lastName,
             isBan : row.isBan
@@ -87,7 +86,6 @@ export class addBorrowerDialog {
           this.addBorrowerForm = this.fb.group({
             bID : [''],
             IDType : [''],
-            Occupation : [''],
             firstName : [''],
             lastName : [''],
             isBan : ['0'],
@@ -95,8 +93,10 @@ export class addBorrowerDialog {
         }
 
     submitAddBorrowerForm() {
-        this.DS.createPromise(Borrower, this.addBorrowerForm.value);
-        this.dialogRef.close();
+        if (this.addBorrowerForm.valid){
+            this.DS.createPromise(Borrower, this.addBorrowerForm.value);
+            this.dialogRef.close();
+        }  
     }
 
     onNoClick(): void {
@@ -131,7 +131,6 @@ export class editBorrowerDialog implements OnInit{
           this.editBorrowerForm = this.fb.group({
             id : [data.id],
             IDType : [data.IDType],
-            Occupation : [data.Occupation],
             firstName : [data.firstName],
             lastName : [data.lastName],
             isBan : [data.isBan],
@@ -164,8 +163,11 @@ export class editBorrowerDialog implements OnInit{
     }
 
     submitEditBorrowerForm() {
-        this.DS.updatePromise(Borrower , this.editBorrowerForm.value);
-        this.dialogRef.close();
+        if (this.editBorrowerForm.valid){
+            this.DS.updatePromise(Borrower , this.editBorrowerForm.value);
+            this.dialogRef.close();
+        }
+        
     }
 
     deleteBorrower(){

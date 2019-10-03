@@ -48,7 +48,7 @@ export const navRoutes: NavRoute[] = [
             ),
     },
     {
-        data: { title: 'Borrower Info and Incidents ' },
+        data: { title: 'Borrower Information ' },
         icon: 'transfer_within_a_station',
         group: '',
         path: 'borrower-info',

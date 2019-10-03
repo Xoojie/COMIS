@@ -17,7 +17,6 @@ let Inventory = new Schema ({
     dateEdited: { type: Date },
     addedBy: { type: String },
     editedBy: { type: String },
-    isArchived: { type: Number },
 }, 
 {
     collection: 'inventory'

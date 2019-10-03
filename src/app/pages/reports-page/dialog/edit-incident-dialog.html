@@ -32,22 +32,22 @@
         <label>Incident Date</label> : {{data.date}}
     </div>
     <div class = "col-4">
+            <mat-form-field >
+                <mat-label> Borrower Description </mat-label>
+                <textarea matInput formControlName = "borrowerDescription" value = "{{data.borrowerDescription}}" disabled> </textarea>
+            </mat-form-field>
+        </div>
+    <div class = "col-4">
         <mat-form-field >
             <mat-label> Admin Description </mat-label>
             <textarea matInput formControlName = "adminDescription"  value = "{{data.adminDescription}}"> </textarea>
         </mat-form-field>
     </div>
-    <div class = "col-4">
-        <mat-form-field >
-            <mat-label> Borrower Description </mat-label>
-            <textarea matInput formControlName = "borrowerDescription" value = "{{data.borrowerDescription}}" > </textarea>
-        </mat-form-field>
-    </div> 
+     
 
 </div>
 </div>
 <div mat-dialog-actions>
-    <button mat-button color = "warn"(click) = "deleteIncident()" >Delete</button>
     <button mat-button (click) = "submitEditIncidentForm()" >Edit</button>
     <button mat-button (click)="onNoClick()">Back</button> 
 </div>
